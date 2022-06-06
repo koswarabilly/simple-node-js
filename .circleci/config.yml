@@ -25,8 +25,6 @@ jobs:
           key: repo-{{ .Environment.CIRCLE_SHA1 }}
   build:
     executor: node-executor
-    environment:
-      AWS_REGION: ap-southeast-1
     steps:
       - restore_cache:
           keys:
@@ -41,6 +39,12 @@ jobs:
             sudo apt-get update
             sudo apt-get install tree
             tree /
+      - run:
+          name: install npm
+          command: |
+            sudo apt-get update
+            sudo apt-get install npm
+            npm install
       - run:
           name: build_and_push
           command: |
