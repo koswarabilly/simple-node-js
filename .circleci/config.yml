@@ -38,7 +38,7 @@ jobs:
       - run:
           name: check_directory
           command: |
-            ls ~/repo
+            tree
       - run:
           name: build_and_push
           command: |
