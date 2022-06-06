@@ -10,6 +10,7 @@ executors:
 
 jobs:
   checkout_code_TODO:
+    executor: node-executor
     steps:
       - run:
           name: "TODO: checking out code"
