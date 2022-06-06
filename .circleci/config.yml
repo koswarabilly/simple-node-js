@@ -34,11 +34,9 @@ jobs:
       # - setup_remote_docker:
       #     docker_layer_caching: true
       - run:
-          name: get files
+          name: get repo url
           command: |
-            sudo apt-get update
-            sudo apt-get install tree
-            tree ~
+            echo $CIRCLE_REPOSITORY_URL
       # - run:
       #     name: build_and_push
       #     command: |
