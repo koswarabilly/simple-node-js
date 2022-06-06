@@ -35,10 +35,6 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: get repo url
-          command: |
-            echo $CIRCLE_REPOSITORY_URL
-      - run:
           name: build_and_push
           command: |
             mkdir -p ~/.docker && echo "$DOCKER_HUB_CREDENTIALS" > ~/.docker/config.json
