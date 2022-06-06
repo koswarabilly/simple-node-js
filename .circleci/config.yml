@@ -57,6 +57,6 @@ workflows:
           requires:
             - checkout_code
       - hold_deploy:
-        type: approval
-        requires:
-          - build
+          type: approval
+          requires:
+            - build
