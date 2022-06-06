@@ -12,10 +12,15 @@ jobs:
   checkout_code_TODO:
     executor: node-executor
     steps:
-      - run:
-          name: "TODO: checking out code"
-          command: |
-            echo "exec: TODO"
+      - run: |
+          echo "1.1.$CIRCLE_BUILD_NUM" > ~/workspace/version
+      - persist_to_workspace:
+          root: ~/workspace
+          paths: version
+      - save_cache:
+          paths:
+            - ~/repo
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
   build:
     executor: node-executor
     environment:
@@ -31,7 +36,11 @@ jobs:
       - run:
           name: build_and_push
           command: |
-            echo "exec: build and push"
+            cat ~/workspace/version > ./version
+            TAG=$(cat ~/workspace/version)
+            IMAGE_NAME=simple-node-js
+
+            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest"
 
 
 workflows:
