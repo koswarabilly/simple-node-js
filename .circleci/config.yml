@@ -6,6 +6,9 @@ executors:
   node-executor:
     docker:
       - image: circleci/node:16.14.2
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
     working_directory: ~/repo
 
 jobs:
