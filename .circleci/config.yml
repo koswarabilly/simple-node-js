@@ -42,6 +42,7 @@ jobs:
             ls ~/project
             ls ~/repo
             ls ~/workspace
+            ls ~/workspace/version
       - run:
           name: build_and_push
           command: |
