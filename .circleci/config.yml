@@ -6,9 +6,6 @@ executors:
   node-executor:
     docker:
       - image: cimg/node:16.14.2
-        auth:
-          username: $DOCKER_USERNAME
-          password: $DOCKER_PASSWORD
     working_directory: ~/repo
 
 jobs:
@@ -19,9 +16,29 @@ jobs:
           name: "TODO: checking out code"
           command: |
             echo "exec: TODO"
+  build:
+    executor: node-executor
+    environment:
+      AWS_REGION: ap-southeast-1
+    steps:
+      - restore_cache:
+          keys:
+            - repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/workspace
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: build_and_push
+          command: |
+            echo "exec: build and push"
+
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - checkout_code_TODO
+      - build:
+          requires:
+            - checkout_code_TODO
