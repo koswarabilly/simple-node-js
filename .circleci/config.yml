@@ -43,6 +43,8 @@ jobs:
             TAG=$(cat ~/workspace/version)
             IMAGE_NAME=simple-node-js
 
+            docker --version
+
 workflows:
   version: 2
   build-and-deploy:
