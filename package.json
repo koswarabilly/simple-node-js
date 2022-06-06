@@ -1,0 +1,27 @@
+{
+  "name": "simple-node-js",
+  "version": "1.0.0",
+  "description": "This repo will showcase how to apply terraform and circleci with docker container",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/app",
+    "dev": "nodemon ./src/app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koswarabilly/simple-node-js.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "billy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koswarabilly/simple-node-js/issues"
+  },
+  "homepage": "https://github.com/koswarabilly/simple-node-js#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}

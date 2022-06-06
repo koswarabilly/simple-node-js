@@ -1,0 +1,25 @@
+version: 2.1
+orbs:
+  terraform: circleci/terraform@2.0.1
+
+executors:
+  node-executor:
+    docker:
+      - image: circleci/node:16.14.2
+    working_directory: ~/repo
+
+jobs:
+  checkout_code_TODO:
+    working_directory: << pipeline.parameters.working_dir >>
+    executor: default
+    steps:
+      - run:
+          name: "TODO: checking out code"
+          command: |
+            echo "exec: TODO"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - checkout_code_TODO
