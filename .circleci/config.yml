@@ -44,6 +44,7 @@ jobs:
 
             docker --version
             docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
             docker push "$IMAGE_NAME:$TAG"
             docker push "$IMAGE_NAME:latest"
 
