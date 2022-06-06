@@ -36,6 +36,11 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
+          name: install tree
+          command: |
+            sudo apt-get update
+            sudo apt-get install tree
+      - run:
           name: build_and_push
           command: |
             mkdir -p ~/.docker && echo "$DOCKER_HUB_CREDENTIALS" > ~/.docker/config.json
@@ -44,7 +49,7 @@ jobs:
             IMAGE_NAME=simple-node-js
 
             docker --version
-            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" ~/project
+            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
             docker push "$IMAGE_NAME:$TAG"
             docker push "$IMAGE_NAME:latest"
 
