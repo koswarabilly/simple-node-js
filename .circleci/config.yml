@@ -44,7 +44,7 @@ jobs:
             IMAGE_NAME=simple-node-js
 
             docker --version
-            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" ~/repo
+            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" ~/project
             docker push "$IMAGE_NAME:$TAG"
             docker push "$IMAGE_NAME:latest"
 
