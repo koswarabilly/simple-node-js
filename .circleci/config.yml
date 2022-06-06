@@ -10,7 +10,6 @@ executors:
 
 jobs:
   checkout_code_TODO:
-    working_directory: << pipeline.parameters.working_dir >>
     executor: default
     steps:
       - run:
