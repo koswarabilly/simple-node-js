@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 30031
 CMD [ "npm", "run", "start" ]
 
-HEALTHCHECK --interval=30s --timeout=5s --retries=1 CMD [ "curl -f http://localhost:3000/health || exit 1" ]
+HEALTHCHECK --interval=30s --timeout=5s --retries=1 CMD [ "curl -f http://localhost:30031/health || exit 1" ]
