@@ -42,7 +42,7 @@ jobs:
             TAG=$(cat ~/workspace/version)
             IMAGE_NAME=simple-node-js
 
-            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest"
+            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
 
 
 workflows:
