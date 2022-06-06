@@ -10,7 +10,6 @@ executors:
 
 jobs:
   checkout_code_TODO:
-    executor: default
     steps:
       - run:
           name: "TODO: checking out code"
