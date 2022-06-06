@@ -9,7 +9,7 @@ executors:
     working_directory: ~/repo
 
 jobs:
-  checkout_code_TODO:
+  checkout_code:
     executor: node-executor
     steps:
       - attach_workspace:
@@ -38,10 +38,6 @@ jobs:
       - run:
           name: check_directory
           command: |
-            ls ~
-            ls ~/project
-            ls ~/repo
-            ls ~/workspace
             ls ~/workspace/version
       - run:
           name: build_and_push
@@ -59,7 +55,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - checkout_code_TODO
+      - checkout_code
       - build:
           requires:
-            - checkout_code_TODO
+            - checkout_code
