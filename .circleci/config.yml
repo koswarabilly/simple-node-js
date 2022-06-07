@@ -45,8 +45,10 @@ jobs:
             IMAGE_NAME=685527823368.dkr.ecr.ap-southeast-1.amazonaws.com/simple-node-js
 
             docker --version
-            aws --version
-            aws ecr get-login-password --region ap-southeast-1
+            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
+            aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 685527823368.dkr.ecr.ap-southeast-1.amazonaws.com
+            docker push "$IMAGE_NAME:$TAG"
+            docker push "$IMAGE_NAME:latest"
 
 workflows:
   version: 2
