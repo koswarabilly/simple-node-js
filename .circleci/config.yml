@@ -27,8 +27,6 @@ jobs:
           key: repo-{{ .Environment.CIRCLE_SHA1 }}
   build:
     executor: node-executor
-    environment:
-      AWS_REGION: ap-southeast-1
     steps:
       - restore_cache:
           keys:
