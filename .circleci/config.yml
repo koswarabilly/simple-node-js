@@ -49,8 +49,7 @@ jobs:
             IMAGE_NAME=685527823368.dkr.ecr.ap-southeast-1.amazonaws.com/simple-node-js
 
             docker --version
-            AWS_LOGIN=(aws ecr get-login-password --region ap-southeast-1)
-            echo AWS_LOGIN
+            aws ecr get-login-password --region ap-southeast-1
 
 workflows:
   version: 2
