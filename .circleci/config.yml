@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  aws-cli: circleci/aws-cli@3.1.1
+  aws-cli: circleci/aws-cli@2.0.2
   terraform: circleci/terraform@2.0.1
 
 executors:
@@ -51,7 +51,7 @@ jobs:
             docker --version
             docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
             
-            aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 685527823368.dkr.ecr.ap-southeast-1.amazonaws.com
+            docker login -u AWS -p $(aws ecr get-login-password --region ap-southeast-1) 685527823368.dkr.ecr.ap-southeast-1.amazonaws.com
 
             docker push "$IMAGE_NAME:$TAG"
             docker push "$IMAGE_NAME:latest"
