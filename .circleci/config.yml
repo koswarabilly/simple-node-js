@@ -15,8 +15,6 @@ jobs:
     steps:
       - checkout
       - aws-cli/install
-      - aws-cli/setup:
-          aws-region: "AWS_REGION"
       - attach_workspace:
           at: ~/workspace
       - run: |
@@ -49,7 +47,8 @@ jobs:
             IMAGE_NAME=685527823368.dkr.ecr.ap-southeast-1.amazonaws.com/simple-node-js
 
             docker --version
-            aws ecr get-login-password --region ap-southeast-1
+            /usr/local/bin/aws --version
+            /usr/local/bin/aws ecr get-login-password --region ap-southeast-1
 
 workflows:
   version: 2
