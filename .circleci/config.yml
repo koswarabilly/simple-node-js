@@ -14,7 +14,6 @@ jobs:
     executor: node-executor
     steps:
       - checkout
-      - aws-cli/install
       - attach_workspace:
           at: ~/workspace
       - run: |
@@ -38,6 +37,7 @@ jobs:
           at: ~/workspace
       - setup_remote_docker:
           docker_layer_caching: true
+      - aws-cli/install
       - run:
           name: build_and_push
           command: |
@@ -47,8 +47,8 @@ jobs:
             IMAGE_NAME=685527823368.dkr.ecr.ap-southeast-1.amazonaws.com/simple-node-js
 
             docker --version
-            /usr/local/bin/aws --version
-            /usr/local/bin/aws ecr get-login-password --region ap-southeast-1
+            aws --version
+            aws ecr get-login-password --region ap-southeast-1
 
 workflows:
   version: 2
