@@ -1,5 +1,6 @@
 version: 2.1
 orbs:
+  aws-cli: circleci/aws-cli@3.1.1
   terraform: circleci/terraform@2.0.1
 
 executors:
@@ -13,6 +14,9 @@ jobs:
     executor: node-executor
     steps:
       - checkout
+      - aws-cli/install
+      - aws-cli/setup:
+          aws-region: "AWS_REGION"
       - attach_workspace:
           at: ~/workspace
       - run: |
@@ -26,6 +30,8 @@ jobs:
           key: repo-{{ .Environment.CIRCLE_SHA1 }}
   build:
     executor: node-executor
+    environment:
+      AWS_REGION: ap-southeast-1
     steps:
       - restore_cache:
           keys:
@@ -40,11 +46,13 @@ jobs:
             mkdir -p ~/.docker && echo "$DOCKER_HUB_CREDENTIALS" > ~/.docker/config.json
             cat ~/workspace/version > ./version
             TAG=$(cat ~/workspace/version)
-            IMAGE_NAME=koswarabilly/simple-node-js
+            IMAGE_NAME=685527823368.dkr.ecr.ap-southeast-1.amazonaws.com/simple-node-js
 
             docker --version
             docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
-            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+            
+            aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 685527823368.dkr.ecr.ap-southeast-1.amazonaws.com
+
             docker push "$IMAGE_NAME:$TAG"
             docker push "$IMAGE_NAME:latest"
 
