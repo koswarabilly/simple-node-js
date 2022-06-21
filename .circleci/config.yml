@@ -1,27 +1,64 @@
 version: 2.1
 orbs:
+  aws-cli: circleci/aws-cli@3.1.1
   terraform: circleci/terraform@2.0.1
 
 executors:
   node-executor:
     docker:
-      - image: circleci/node:16.14.2
-        auth:
-          username: $DOCKER_USERNAME
-          password: $DOCKER_PASSWORD
+      - image: cimg/node:16.14.2
     working_directory: ~/repo
 
 jobs:
-  checkout_code_TODO:
+  checkout_code:
     executor: node-executor
     steps:
+      - checkout
+      - attach_workspace:
+          at: ~/workspace
+      - run: |
+          echo "1.1.$CIRCLE_BUILD_NUM" > ~/workspace/version
+      - persist_to_workspace:
+          root: ~/workspace
+          paths: version
+      - save_cache:
+          paths:
+            - ~/repo
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+  build:
+    executor: node-executor
+    steps:
+      - restore_cache:
+          keys:
+            - repo-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/workspace
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - aws-cli/install
       - run:
-          name: "TODO: checking out code"
+          name: build_and_push
           command: |
-            echo "exec: TODO"
+            mkdir -p ~/.docker && echo "$DOCKER_HUB_CREDENTIALS" > ~/.docker/config.json
+            cat ~/workspace/version > ./version
+            TAG=$(cat ~/workspace/version)
+            IMAGE_NAME=685527823368.dkr.ecr.ap-southeast-1.amazonaws.com/simple-node-js
+
+            docker --version
+            docker build -t "$IMAGE_NAME:$TAG" -t "$IMAGE_NAME:latest" .
+            aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 685527823368.dkr.ecr.ap-southeast-1.amazonaws.com
+            docker push "$IMAGE_NAME:$TAG"
+            docker push "$IMAGE_NAME:latest"
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - checkout_code_TODO
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - hold_deploy:
+          type: approval
+          requires:
+            - build
